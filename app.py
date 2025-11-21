@@ -101,4 +101,52 @@ def analyze_product(input_text, image_data, language_opt):
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/3081/3081967.png", width=80)
     st.header("Cài Đặt Phân Tích")
-    language = st.selectbox("Ngôn ngữ
+    language = st.selectbox("Ngôn ngữ báo cáo:", ["Tiếng Việt", "English", "한국어 (Korean)"])
+    st.divider()
+    st.info("💡 **Mẹo R&D:** Tải ảnh bảng thành phần phía sau gói kẹo để AI phân tích phụ gia chính xác hơn.")
+
+# Main Content
+st.title("🍬 SweetTech R&D Mate")
+st.caption(f"Powered by Google Gemini Pro • API Key: Active")
+
+col1, col2 = st.columns([1, 1])
+
+with col1:
+    st.subheader("1. Nhập liệu")
+    input_text = st.text_area("Mô tả sản phẩm hoặc ý tưởng:", height=150, 
+                              placeholder="VD: Kẹo dẻo hỗ trợ ngủ ngon vị việt quất, dùng pectin thay gelatin...")
+    
+    uploaded_file = st.file_uploader("Hoặc tải ảnh sản phẩm/bao bì:", type=["jpg", "png", "jpeg"])
+    
+    image_val = None
+    if uploaded_file:
+        image_val = Image.open(uploaded_file)
+        st.image(image_val, caption="Ảnh đã tải lên", use_column_width=True)
+
+with col2:
+    st.subheader("2. Kết quả phân tích")
+    
+    # Nút bấm kích hoạt
+    analyze_btn = st.button("🚀 PHÂN TÍCH & SO SÁNH NGAY")
+    
+    if analyze_btn:
+        if not input_text and not image_val:
+            st.warning("⚠️ Vui lòng nhập mô tả hoặc tải ảnh để bắt đầu.")
+        else:
+            # Gọi hàm phân tích
+            result = analyze_product(input_text, image_val, language)
+            
+            # Hiển thị kết quả
+            st.markdown(f'<div class="report-container">{result}</div>', unsafe_allow_html=True)
+            
+            # Nút tải về
+            st.download_button(
+                label="📥 Xuất báo cáo (Text File)",
+                data=result,
+                file_name="RD_Candy_Report.md",
+                mime="text/markdown"
+            )
+
+# Footer
+st.markdown("---")
+st.markdown("*Công cụ hỗ trợ nội bộ cho team R&D Bánh Kẹo - Phát triển trên nền tảng Google Gemini.*")
