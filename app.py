@@ -10,7 +10,7 @@ try:
     genai.configure(api_key=API_KEY)
     # Sử dụng model mạnh nhất hiện tại cho nhiệm vụ phân tích phức tạp
     # Nếu bạn có quyền truy cập model 3.0, hãy đổi chuỗi bên dưới thành 'gemini-3.0-pro-preview'
-    model = genai.GenerativeModel('gemini-1.5-pro') 
+    model = genai.GenerativeModel('gemini-3.0-pro-preview') 
 except Exception as e:
     st.error(f"Lỗi cấu hình API: {e}")
 
